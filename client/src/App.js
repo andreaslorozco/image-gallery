@@ -62,6 +62,9 @@ class App extends Component {
     
     socket.on('newImage', ({ imageURL }) => {
       const newImageArr = [...this.state.imageArr];
+      if (newImageArr.length >= 10) {
+        newImageArr.splice(0,1);
+      };
       newImageArr.push({
         src: `${fixedURL}${imageURL}`,
         fileName: imageURL,

@@ -26,6 +26,10 @@ class CarouselComponent extends Component {
     const isImageOnArray = items.find(image => image.src === imageURL);
 
     if (!isImageOnArray) {
+      if (items.length >= 10) {
+        items.splice(0,1);
+      };
+      
       items.push({
         src: imageURL,
         altText: 'New Image Received',
