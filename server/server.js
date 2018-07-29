@@ -36,19 +36,22 @@ let isImageUploading = false;
 
 // emitter from server.js
 fs.watch(watchedFolderPath, { encoding: 'utf8'}, (eventType, filename) => {
-    if (filename && eventType === 'change' && filename !== 'qrcodes') {
-        // fs.watch triggers multpiple 'change' events sometimes
-        // controling quantity of emits with an array
-        const isImageOnArray = imagesArr.find(image => image.src === filename);
-
-        if (!isImageOnArray) {            
-            imagesArr.push({
-                src: filename
-            });
-            console.log('Sending newImageEvent with the file:', filename);            
-            io.emit('newImage', {imageURL: filename});
-
-        };        
+    console.log(eventType, filename);
+    if (filename && eventType === 'rename' && filename !== 'qrcodes') {
+        const filenameInfo = filename.split('.');
+        const extension = filenameInfo[1];
+        console.log(extension, filenameInfo);
+        if (extension === 'JPG') {
+            const isImageOnArray = imagesArr.find(image => image.src === filename);
+    
+            if (!isImageOnArray) {            
+                imagesArr.push({
+                    src: filename
+                });
+                console.log('Sending newImageEvent with the file:', filename);            
+                io.emit('newImage', {imageURL: filename});
+            };        
+        };
     };
 });
 

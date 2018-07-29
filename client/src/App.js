@@ -70,11 +70,11 @@ class App extends Component {
         fileName: imageURL,
         uploaded: false
       });
-      
+
       this.setState({
         imageArr: newImageArr
       });
-      
+            
     }); 
 
     socket.on('imageFinishedUploading', (data) => {
